@@ -15,21 +15,21 @@ function translateCode(inputFile, outputFile, mappingsFile) {
         return;
       }
 
-      const [german, csharp] = trimmedLine.split(':');
-      if (german && csharp) {
+      const [kword, csharp] = trimmedLine.split(':');
+      if (kword && csharp) {
         mappings[german.trim()] = csharp.trim();
       }
     });
 
     let code = fs.readFileSync(inputFile, 'utf8');
 
-    const sortedGermanKeywords = Object.keys(mappings).sort((a, b) => b.length - a.length);
+    const sortedKeywords = Object.keys(mappings).sort((a, b) => b.length - a.length);
 
-    sortedGermanKeywords.forEach(germanKeyword => {
-      const csharpKeyword = mappings[germanKeyword];
-      const escapedGermanKeyword = escapeRegExp(germanKeyword);
+    sortedKeywords.forEach(Keyword => {
+      const csharpKeyword = mappings[Keyword];
+      const escapedKeyword = escapeRegExp(Keyword);
 
-      const regex = new RegExp(`(?<=\\P{L}|^)${escapedGermanKeyword}(?=\\P{L}|$)(?=\\s*\\()|(?<=\\P{L}|^)${escapedGermanKeyword}(?=\\P{L}|$)`, 'giu');
+      const regex = new RegExp(`(?<=\\P{L}|^)${escapedKeyword}(?=\\P{L}|$)(?=\\s*\\()|(?<=\\P{L}|^)${escapedKeyword}(?=\\P{L}|$)`, 'giu');
       code = code.replace(regex, csharpKeyword);
     });
 
