@@ -1,0 +1,53 @@
+const fs = require('fs');
+
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function translateCode(inputFile, outputFile, mappingsFile) {
+  try {
+    const mappings = {};
+    const lines = fs.readFileSync(mappingsFile, 'utf8').trim().split('\n');
+    lines.forEach(line => {
+      const trimmedLine = line.trim();
+
+      if (trimmedLine.startsWith('#') || trimmedLine === '') {
+        return;
+      }
+
+      const [german, csharp] = trimmedLine.split(':');
+      if (german && csharp) {
+        mappings[german.trim()] = csharp.trim();
+      }
+    });
+
+    let code = fs.readFileSync(inputFile, 'utf8');
+
+    const sortedGermanKeywords = Object.keys(mappings).sort((a, b) => b.length - a.length);
+
+    sortedGermanKeywords.forEach(germanKeyword => {
+      const csharpKeyword = mappings[germanKeyword];
+      const escapedGermanKeyword = escapeRegExp(germanKeyword);
+
+      const regex = new RegExp(`(?<=\\P{L}|^)${escapedGermanKeyword}(?=\\P{L}|$)(?=\\s*\\()|(?<=\\P{L}|^)${escapedGermanKeyword}(?=\\P{L}|$)`, 'giu');
+      code = code.replace(regex, csharpKeyword);
+    });
+
+    fs.writeFileSync(outputFile, code, 'utf8');
+
+    console.log(`Transformed code written to: ${outputFile}`);
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+}
+
+const inputFile = process.argv[2];
+const outputFile = process.argv[3];
+const mappingsFile = process.argv[4];
+
+if (!inputFile || !outputFile || !mappingsFile) {
+  console.error('Usage: node translate.js <input_file> <output_file> <mappings_file>');
+  process.exit(1);
+}
+
+translateCode(inputFile, outputFile, mappingsFile);
