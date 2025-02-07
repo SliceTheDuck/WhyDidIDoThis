@@ -17,7 +17,7 @@ function translateCode(inputFile, outputFile, mappingsFile) {
 
       const [kword, csharp] = trimmedLine.split(':');
       if (kword && csharp) {
-        mappings[german.trim()] = csharp.trim();
+        mappings[kword.trim()] = csharp.trim();
       }
     });
 
