@@ -7,16 +7,16 @@ using System;
 
 namespace gsharp.Keywords
 {
-    public class KeywordMapping
+    public class Mapping
     {
         private readonly Dictionary<string, string> _keywordMap =
             new Dictionary<string, string>();
         private readonly ILogger _logger;
         private const string ResourceName = "gsharp.src.Keywords.gsharp.json";
 
-        public KeywordMapping()
+        public Mapping()
         {
-            _logger = new ConsoleLogger(nameof(KeywordMapping));
+            _logger = new ConsoleLogger(nameof(Mapping));
             LoadKeywordMappingsFromResource();
         }
 

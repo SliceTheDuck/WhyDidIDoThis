@@ -7,16 +7,16 @@ using System;
 
 namespace gsharp.Transformation
 {
-    public class CustomKeywordRewriter : CSharpSyntaxRewriter
+    public class KeywordRewriter : CSharpSyntaxRewriter
     {
-        private readonly KeywordMapping _keywordMapping;
+        private readonly Mapping _keywordMapping;
         private readonly ILogger _logger;
 
-        public CustomKeywordRewriter(KeywordMapping keywordMapping)
+        public KeywordRewriter(Mapping keywordMapping)
         {
             _keywordMapping = keywordMapping ??
                 throw new ArgumentNullException(nameof(keywordMapping));
-            _logger = new ConsoleLogger(nameof(CustomKeywordRewriter));
+            _logger = new ConsoleLogger(nameof(KeywordRewriter));
         }
 
         public override SyntaxToken VisitToken(SyntaxToken token)
