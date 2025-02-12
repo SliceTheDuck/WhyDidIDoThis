@@ -31,7 +31,7 @@ GSHC is the command-line tool responsible for compiling GE# code into standard C
 
 **Basic Compilation:**
 
-```
+```bash
 gshc <input_file.gsh> -o <output_directory>
 ```
 
@@ -39,7 +39,7 @@ This command translates the `input_file.gsh` file into C# code and saves it to t
 
 **Compiling to an Assembly:**
 
-```
+```bash
 gshc <input_file.gsh> -o <output_directory> -assembly <output_assembly.dll>
 ```
 
@@ -47,7 +47,7 @@ This command translates the `input_file.gsh` file into C# code, saves it to the 
 
 **Generating Wrappers:**
 
-```
+```bash
 gshc -wrap <assembly_path.dll> -o <output_directory>
 ```
 
@@ -55,7 +55,7 @@ This command generates GE# wrappers for the specified C# assembly and saves the 
 
 **Help Information:**
 
-```
+```bash
 gshc -help
 ```
 
